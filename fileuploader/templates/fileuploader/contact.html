@@ -1,0 +1,18 @@
+{% extends "fileuploader/base.html" %}
+
+{% block content %}
+<h1>Contact</h1>
+
+<div>
+Pour toute remarques, sugestions, ou pour indiquer des annales mal archivées,
+merci de contacter annaleut par mail <span id="coucou"></span>.
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+$(function() {
+   $('#coucou').html('<a href="mailto:{{ contact_email }}">{{ contact_email }}</a>');
+});
+</script>
+{% endblock %}

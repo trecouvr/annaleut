@@ -1,0 +1,19 @@
+{% extends "fileuploader/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>Les annales</h1>
+
+<div>
+<a href="{% url 'advanced_search' %}">Recherche avancée</a>
+</div>
+
+<div>
+{% crispy form %}
+</div>
+
+<div>
+{% include "fileuploader/include_upload_list.html" %}
+</div>
+
+{% endblock %}

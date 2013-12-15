@@ -1,0 +1,50 @@
+{% load staticfiles %}
+{% load annaleut_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'fileuploader/bootstrap/css/bootstrap.min.css' %}" />
+    <title>Annaleut</title>
+</head>
+
+<body>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'smart_search' %}">Annaleut</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="{% navactive request 'smart_search' %}">
+                <a href="{% url 'smart_search' %}">Les annales</a>
+            </li>
+            <li class="{% navactive request 'upload_form' %}">
+                <a href="{% url 'upload_form' %}">Upload</a>
+            </li>
+            <li class="{% navactive request 'contact' %}">
+                <a href="{% url 'contact' %}">Contact</a>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container" style="padding-top: 50px;">
+        {% block content %}{% endblock %}
+    </div>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static 'fileuploader/jquery-1.10.2.min.js' %}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'fileuploader/bootstrap/js/bootstrap.min.js' %}"></script>
+    
+    {% block js %}{% endblock %}
+</body>
+</html>

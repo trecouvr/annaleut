@@ -1,0 +1,11 @@
+Django
+mysql-python
+dj-database-url
+git+https://github.com/KTHse/django-cas2.git
+django-filter
+wiki
+git+https://github.com/TomLottermann/django-wiki-formulas.git
+pygments
+django-crispy-forms
+linaro-django-pagination
+

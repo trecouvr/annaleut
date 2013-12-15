@@ -1,0 +1,34 @@
+{% load annaleut_tags pagination_tags sorting %}
+
+{% autosort object_list -uploaded_date %}
+{% autopaginate object_list 50 %}
+
+{% paginate %}
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>{% sortlink "Id" "pk" %}</th>
+            <th>{% sortlink "UV" "uv" %}</th>
+            <th>{% sortlink "Année" "year" %}</th>
+            <th>Semestre</th>
+            <th>Examen</th>
+            <th>Type</th>
+            <th>{% sortlink "Upload" "uploaded_date" %}</th>
+            <th>Download</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for upload in object_list %}
+        <tr>
+            <td>{{ upload.id }}</td>
+            <td>{{ upload.uv }}</td>
+            <td>{{ upload.year }}</td>
+            <td>{{ upload.pretty_semester }}</td>
+            <td>{{ upload.pretty_exam_t }}</td>
+            <td>{{ upload.pretty_arch_t }}</td>
+            <td>{{ upload.uploaded_date }}</td>
+            <td><a href="{% url 'upload_dl' upload.pk %}">download</a></td>
+    {% endfor %}
+    </tbody>
+</table>
+{% paginate %}
