@@ -34,20 +34,20 @@ class AppendGetNode(template.Node):
         for pair in dict.split(','):
             pair = pair.split('=')
             self.dict_pairs[pair[0]] = template.Variable(pair[1])
-            
+
     def render(self, context):
         get = context['request'].GET.copy()
 
         for key in self.dict_pairs:
             get[key] = self.dict_pairs[key].resolve(context)
-        
+
         path = context['request'].META['PATH_INFO']
-        
+
         #print "&".join(["%s=%s" % (key, value) for (key, value) in get.items() if value])
-        
+
         if len(get):
             path += "?%s" % "&".join(["%s=%s" % (key, value) for (key, value) in get.items() if value])
-        
+
         return path
 
 

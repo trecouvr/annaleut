@@ -42,7 +42,7 @@ def upper(s):
 def upload_to(instance, filename):
     _,ext = filename.split('.')
     return instance.compute_filename(ext)
-    
+
 class Upload(models.Model):
     # the concerned UV
     uv = models.CharField('UV', db_index=True, max_length=8, null=False, blank=False)
@@ -69,19 +69,19 @@ class Upload(models.Model):
     file = models.FileField(upload_to=upload_to, storage=fs, null=False, blank=False)
     # is the upload available or not
     available = models.BooleanField('disponible', default=True)
-    
+
     class Meta:
         unique_together = ('uv', 'semester', 'exam_t', 'year', 'arch_t')
-    
+
     def pretty_semester(self):
         return SEMESTER_DICT_CHOICES.get(self.semester, 'UNKSEMESTER')
-    
+
     def pretty_exam_t(self):
         return EXAM_T_DICT_CHOICES.get(self.exam_t, 'UNKEXAMT')
-    
+
     def pretty_arch_t(self):
         return ARCH_T_DICT_CHOICES.get(self.arch_t, 'UNKARCHT')
-    
+
     def compute_filename(self, ext=None):
         s = "{uv}_{exam_t}_{semester}_{year}".format(
                     uv=self.uv,

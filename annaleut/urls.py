@@ -18,12 +18,12 @@ urlpatterns = patterns('',
 
     url(r'^admin/login/$', 'fileuploader.views.adminlogin'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^login/$', 'django_cas.views.login'), 
+    url(r'^login/$', 'django_cas.views.login'),
     url(r'^logout/$', 'django_cas.views.logout'),
-    
+
     url(r'^notify/', get_notify_pattern()),
     url(r'wiki/', get_wiki_pattern()),
-    
+
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns = patterns('',

@@ -74,7 +74,7 @@ def smart_search(request):
             uploads = qs
     else:
         form = SearchForm()
-    return render(request, 'fileuploader/upload_list_smartsearch.html', 
+    return render(request, 'fileuploader/upload_list_smartsearch.html',
         {'form': form, 'object_list': uploads})
 
 
@@ -103,7 +103,7 @@ class ChoiceFilterWithBlank(django_filters.ChoiceFilter):
         choices = kwargs.get('choices', get_choices(model, name))
         if blank:
             choices = (('', '---------'),) + tuple(choices)
-        super(ChoiceFilterWithBlank,self).__init__(name=name, 
+        super(ChoiceFilterWithBlank,self).__init__(name=name,
                         label=label, choices=choices, **kwargs)
 '''
 
@@ -118,14 +118,14 @@ class UploadFilter(django_filters.FilterSet):
         fields = ('uv', 'semester', 'exam_t', )
         order_by = ('-year', 'year', '-uploaded_date', 'uploaded_date', )
         form = UploadFilterForm
-    
+
     def __init__(self, *args, **kwargs):
         super(UploadFilter, self).__init__(*args, **kwargs)
         # add blank to the choices
         self._add_blank_choice('semester')
         self._add_blank_choice('exam_t')
         #self._add_blank_choice('arch_t')
-    
+
     def _add_blank_choice(self, fieldname):
         self.filters[fieldname].extra.update(
             {'choices': (('', '---------'),)+get_choices(Upload, fieldname)})
@@ -135,7 +135,7 @@ class UploadList(FilterView):
     filterset_class = UploadFilter
     template_name = 'fileuploader/upload_list_advancedsearch.html'
     queryset = Upload.objects.filter(available=True)
-    
+
     def get_context_data(self, *args, **kwargs):
         data = super(UploadList, self).get_context_data(*args, **kwargs)
         data['form'] = data['filter'].form

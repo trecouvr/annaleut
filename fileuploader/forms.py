@@ -17,7 +17,7 @@ class UploadForm(forms.ModelForm):
     class Meta:
         model = Upload
         fields = ('uv', 'exam_t', 'semester', 'year', 'file', 'arch_t')
-    
+
     def clean_file(self):
         file = self.cleaned_data['file']
         if file:
@@ -29,7 +29,7 @@ class UploadForm(forms.ModelForm):
             else:
                 raise forms.ValidationError("'%s' n'est pas un format autorise, format autorises: %s" % (file_type, ', '.join(settings.TASK_UPLOAD_FILE_TYPES)))
         return file
-    
+
     def clean_uv(self):
         uv = self.cleaned_data['uv']
         if uv:
@@ -38,7 +38,7 @@ class UploadForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     q = forms.CharField(max_length=500, label='search')
-    
+
     def __init__(self, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -50,7 +50,7 @@ class SearchForm(forms.Form):
             'q',
         )
 
-    
+
     def clean(self):
         data = self.cleaned_data
         q = data.get('q', '')
@@ -108,7 +108,7 @@ class ChoiceFilterWithBlank(django_filters.ChoiceFilter):
         choices = kwargs.get('choices', get_choices(model, name))
         if blank:
             choices = (('', '---------'),) + tuple(choices)
-        super(ChoiceFilterWithBlank,self).__init__(name=name, 
+        super(ChoiceFilterWithBlank,self).__init__(name=name,
                         label=label, choices=choices, **kwargs)
 
 
