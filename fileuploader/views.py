@@ -5,7 +5,6 @@ import re
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponse
 from django.utils.text import capfirst
@@ -135,7 +134,6 @@ class UploadFilter(django_filters.FilterSet):
 class UploadList(FilterView):
     filterset_class = UploadFilter
     template_name = 'fileuploader/upload_list_advancedsearch.html'
-    paginate_by = 50
     queryset = Upload.objects.filter(available=True)
     
     def get_context_data(self, *args, **kwargs):
