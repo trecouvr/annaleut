@@ -17,6 +17,7 @@ ADMINS = (
     ('Annaleut', CONTACT_EMAIL),
     ('Thomas Recouvreux', 'thomas.recouvreux@gmail.com'),
 )
+SERVER_EMAIL = 'annaleut@assos.utc.fr'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
