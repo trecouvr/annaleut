@@ -44,8 +44,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #
-    'crispy_forms',
     # wiki
     'django.contrib.sites',
     'django.contrib.humanize',
@@ -59,7 +57,10 @@ INSTALLED_APPS = (
     'wiki.plugins.notifications',
     'wiki.plugins.images',
     'wiki.plugins.macros',
+    # wiki plugin
     'django_wiki_formulas',
+    # other
+    'bootstrap3',
     'linaro_django_pagination',
     'sorting',
     #
@@ -175,10 +176,6 @@ TASK_UPLOAD_FILE_TYPES = ('pdf', 'jpg', 'png', 'jpeg', 'jpe')
 UPLOAD_LOCATION = os.path.join(BASE_DIR, 'uploads')
 UPLOAD_URL = '/annaleut/uploads/'
 
-# crispy
-
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
-CRISPY_FAIL_SILENTLY = not DEBUG
 
 # wiki
 

@@ -1,8 +1,12 @@
 {% extends "fileuploader/base.html" %}
-{% load crispy_forms_tags %}
+{% load bootstrap3 %}
 
 {% block content %}
 <h1>Upload</h1>
-{% crispy form %}
+    <form role="form" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons submit="OK" %}{% endbuttons %}
+    </form>
 {% endblock %}
 

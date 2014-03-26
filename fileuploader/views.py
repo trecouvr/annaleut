@@ -11,7 +11,7 @@ from django.views.generic import TemplateView
 import django_filters
 from django_filters.views import FilterView
 
-from .forms import UploadForm, SearchForm, UploadFilterForm
+from .forms import UploadForm, SearchForm
 from .models import Upload
 
 
@@ -112,23 +112,6 @@ def get_choices(model, fieldname):
     return get_field(model, fieldname).choices
 
 
-def get_label(model, fieldname):
-    return capfirst(get_field(model, fieldname).verbose_name)
-
-'''
-class ChoiceFilterWithBlank(django_filters.ChoiceFilter):
-    #FilterChoice with a blank option
-    def __init__(self, model, name, blank=True, **kwargs):
-        self.model = model
-        label = kwargs.get('label', get_label(model, name))
-        choices = kwargs.get('choices', get_choices(model, name))
-        if blank:
-            choices = (('', '---------'),) + tuple(choices)
-        super(ChoiceFilterWithBlank,self).__init__(name=name,
-                        label=label, choices=choices, **kwargs)
-'''
-
-
 class UploadFilter(django_filters.FilterSet):
     min_year = django_filters.NumberFilter(name="year", label="Année min",
                                 lookup_type='gte')
@@ -140,7 +123,6 @@ class UploadFilter(django_filters.FilterSet):
         #fields = ('uv', 'year', 'semester', 'exam_t', 'arch_t', 'uploaded_date')
         fields = ('uv', 'semester', 'exam_t', )
         order_by = ('-year', 'year', '-uploaded_date', 'uploaded_date', )
-        form = UploadFilterForm
 
     def __init__(self, *args, **kwargs):
         super(UploadFilter, self).__init__(*args, **kwargs)

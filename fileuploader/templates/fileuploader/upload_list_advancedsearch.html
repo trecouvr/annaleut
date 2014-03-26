@@ -1,5 +1,5 @@
 {% extends "fileuploader/base.html" %}
-{% load crispy_forms_tags %}
+{% load bootstrap3 %}
 
 
 {% block content %}
@@ -14,7 +14,11 @@
 
 
 <div class="col-md-4">
-{% crispy form %}
+    <form role="form" class="form-horizontal" method="get">
+        {% csrf_token %}
+        {% bootstrap_form form layout="horizontal" label_class="col-md-4" field_class="col-md-6" %}
+        {% buttons submit="OK" layout="horizontal" %}{% endbuttons %}
+    </form>
 </div>
 
 <div class="col-md-8">

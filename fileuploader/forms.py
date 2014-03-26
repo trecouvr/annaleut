@@ -9,8 +9,6 @@ from django import forms
 from django.conf import settings
 
 import django_filters
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout
 
 from .models import Upload
 
@@ -48,14 +46,6 @@ class SearchForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_class = 'form-inline'
-        self.helper.form_method = 'get'
-        self.helper.form_action = ''
-        self.helper.field_template = 'bootstrap3/layout/inline_field.html'
-        self.helper.layout = Layout(
-            'q',
-        )
 
     def clean(self):
         """clean the input to guess what the user wants"""
@@ -96,43 +86,3 @@ class SearchForm(forms.Form):
         data['exam_t'] = exam_t
         print data
         return data
-
-
-# some utility functions
-def get_field(model, fieldname):
-    return model._meta.get_field_by_name(fieldname)[0]
-
-
-def get_choices(model, fieldname):
-    return get_field(model, fieldname).choices
-
-
-def get_label(model, fieldname):
-    return capfirst(get_field(model, fieldname).verbose_name)
-
-
-class ChoiceFilterWithBlank(django_filters.ChoiceFilter):
-    """
-    FilterChoice with a blank option
-    """
-    def __init__(self, model, name, blank=True, **kwargs):
-        self.model = model
-        label = kwargs.get('label', get_label(model, name))
-        choices = kwargs.get('choices', get_choices(model, name))
-        if blank:
-            choices = (('', '---------'),) + tuple(choices)
-        super(ChoiceFilterWithBlank, self).__init__(name=name,
-                        label=label, choices=choices, **kwargs)
-
-
-class UploadFilterForm(forms.Form):
-    """Advanced search form"""
-    def __init__(self, *args, **kwargs):
-        super(UploadFilterForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-lg-4'
-        self.helper.field_class = 'col-lg-7'
-        self.helper.form_method = 'get'
-        self.helper.form_action = ''
-        self.helper.add_input(Submit('submit', 'Submit'))

@@ -1,11 +1,12 @@
 {% load staticfiles %}
+{% load bootstrap3 %}
 {% load annaleut_tags %}
 
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="{% static 'fileuploader/bootstrap/css/bootstrap.min.css' %}" />
     <title>Annaleut</title>
+    {% bootstrap_css %}
 </head>
 
 <body>
@@ -44,9 +45,7 @@
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{% static 'fileuploader/jquery-1.10.2.min.js' %}"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{% static 'fileuploader/bootstrap/js/bootstrap.min.js' %}"></script>
+    {% bootstrap_javascript %}
 
     {% block js %}{% endblock %}
 </body>
