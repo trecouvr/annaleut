@@ -55,7 +55,7 @@ def sortlink(context, link_text, sort_field, visible_name=None):
 def autosort(parser, token):
     "usage: {% auto_sort queryset (default_sort_key) %}"
     tokens = token.split_contents()
-    if len(tokens) not in (2,3):
+    if len(tokens) not in (2, 3):
         raise template.TemplateSyntaxError(
             "%r tag requires a single argument" %
             token.contents.split()[0])
@@ -78,7 +78,7 @@ class SortedQuerysetNode(template.Node):
             sort_by = request.GET.get('sort_by', self.default_sort_key)
             has_visible_name = False
             if sort_by:
-                if sort_by.replace('-','') in [el.name for el in queryset.model._meta.fields]:
+                if sort_by.replace('-', '') in [el.name for el in queryset.model._meta.fields]:
                     queryset = queryset.order_by(sort_by)
                 else:
                     has_visible_name = True

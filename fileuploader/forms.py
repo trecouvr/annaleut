@@ -3,7 +3,6 @@
 Forms to upload and search
 """
 
-import datetime
 import re
 
 from django import forms
@@ -12,9 +11,9 @@ from django.conf import settings
 import django_filters
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout
-from crispy_forms.bootstrap import StrictButton
 
 from .models import Upload
+
 
 class UploadForm(forms.ModelForm):
     """Form to upload a file"""
@@ -26,12 +25,14 @@ class UploadForm(forms.ModelForm):
         file = self.cleaned_data['file']
         if file:
             if len(file.name.split('.')) == 1:
-                raise forms.ValidationError('Format de fichier invalide, format autorisés: %s' % ', '.join(settings.TASK_UPLOAD_FILE_TYPES))
+                raise forms.ValidationError(
+                    'Format de fichier invalide, format autorisés: %s' % ', '.join(settings.TASK_UPLOAD_FILE_TYPES))
             file_type = file.content_type.split('/')[-1]
             if file_type in settings.TASK_UPLOAD_FILE_TYPES:
                 pass
             else:
-                raise forms.ValidationError("'%s' n'est pas un format autorise, format autorises: %s" % (file_type, ', '.join(settings.TASK_UPLOAD_FILE_TYPES)))
+                raise forms.ValidationError("'%s' n'est pas un format autorise, format autorises: %s" % (
+                    file_type, ', '.join(settings.TASK_UPLOAD_FILE_TYPES)))
         return file
 
     def clean_uv(self):
@@ -39,6 +40,7 @@ class UploadForm(forms.ModelForm):
         if uv:
             uv = uv.upper()
         return uv
+
 
 class SearchForm(forms.Form):
     """Smart search form"""
@@ -54,7 +56,6 @@ class SearchForm(forms.Form):
         self.helper.layout = Layout(
             'q',
         )
-
 
     def clean(self):
         """clean the input to guess what the user wants"""
@@ -72,7 +73,8 @@ class SearchForm(forms.Form):
             qq = qq.strip()
             if re_year_and_semester.match(qq):
                 t = re_year_and_semester.match(qq)
-                if t.group(1): semester.append('PRI' if t.group(1) == 'P' else 'AUT')
+                if t.group(1):
+                    semester.append('PRI' if t.group(1) == 'P' else 'AUT')
                 year.append(t.group(2))
             elif re_semester.match(qq):
                 t = re_semester.match(qq).groups()
@@ -95,11 +97,16 @@ class SearchForm(forms.Form):
         print data
         return data
 
+
 # some utility functions
 def get_field(model, fieldname):
     return model._meta.get_field_by_name(fieldname)[0]
+
+
 def get_choices(model, fieldname):
     return get_field(model, fieldname).choices
+
+
 def get_label(model, fieldname):
     return capfirst(get_field(model, fieldname).verbose_name)
 
@@ -114,7 +121,7 @@ class ChoiceFilterWithBlank(django_filters.ChoiceFilter):
         choices = kwargs.get('choices', get_choices(model, name))
         if blank:
             choices = (('', '---------'),) + tuple(choices)
-        super(ChoiceFilterWithBlank,self).__init__(name=name,
+        super(ChoiceFilterWithBlank, self).__init__(name=name,
                         label=label, choices=choices, **kwargs)
 
 

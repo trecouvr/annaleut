@@ -1,16 +1,12 @@
 # -*- encoding: utf-8 -*-
 
-import re
-
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.http import HttpResponse
 from django.utils.text import capfirst
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView
-from django.views.generic.list import ListView
 
 import django_filters
 from django_filters.views import FilterView
@@ -71,7 +67,6 @@ def smart_search(request):
     Accept GET, search parameter is in the `q` parameter of the GET
     request.
     """
-    PER_PAGE = 50
     uploads = Upload.objects.all()
     if request.GET.get('q', None):
         form = SearchForm(request.GET)
@@ -100,7 +95,8 @@ def smart_search(request):
 
 class ContactView(TemplateView):
     """Very simple view to display contact email"""
-    template_name="fileuploader/contact.html"
+    template_name = "fileuploader/contact.html"
+
     def get_context_data(self, **kwargs):
         ctx = super(ContactView, self).get_context_data(**kwargs)
         ctx['contact_email'] = settings.CONTACT_EMAIL
@@ -110,8 +106,12 @@ class ContactView(TemplateView):
 # some utility functions
 def get_field(model, fieldname):
     return model._meta.get_field_by_name(fieldname)[0]
+
+
 def get_choices(model, fieldname):
     return get_field(model, fieldname).choices
+
+
 def get_label(model, fieldname):
     return capfirst(get_field(model, fieldname).verbose_name)
 
@@ -128,11 +128,13 @@ class ChoiceFilterWithBlank(django_filters.ChoiceFilter):
                         label=label, choices=choices, **kwargs)
 '''
 
+
 class UploadFilter(django_filters.FilterSet):
     min_year = django_filters.NumberFilter(name="year", label="Année min",
                                 lookup_type='gte')
     #max_year = django_filters.NumberFilter(name="year", label="Année max",
     #                            lookup_type='lte')
+
     class Meta:
         model = Upload
         #fields = ('uv', 'year', 'semester', 'exam_t', 'arch_t', 'uploaded_date')
@@ -149,7 +151,7 @@ class UploadFilter(django_filters.FilterSet):
 
     def _add_blank_choice(self, fieldname):
         self.filters[fieldname].extra.update(
-            {'choices': (('', '---------'),)+get_choices(Upload, fieldname)})
+            {'choices': (('', '---------'),) + get_choices(Upload, fieldname)})
 
 
 class UploadList(FilterView):
