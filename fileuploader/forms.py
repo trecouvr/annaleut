@@ -1,4 +1,7 @@
 # -*- encoding: utf-8 -*-
+"""
+Forms to upload and search
+"""
 
 import datetime
 import re
@@ -14,6 +17,7 @@ from crispy_forms.bootstrap import StrictButton
 from .models import Upload
 
 class UploadForm(forms.ModelForm):
+    """Form to upload a file"""
     class Meta:
         model = Upload
         fields = ('uv', 'exam_t', 'semester', 'year', 'file', 'arch_t')
@@ -37,6 +41,7 @@ class UploadForm(forms.ModelForm):
         return uv
 
 class SearchForm(forms.Form):
+    """Smart search form"""
     q = forms.CharField(max_length=500, label='search')
 
     def __init__(self, *args, **kwargs):
@@ -52,6 +57,7 @@ class SearchForm(forms.Form):
 
 
     def clean(self):
+        """clean the input to guess what the user wants"""
         data = self.cleaned_data
         q = data.get('q', '')
         q = q.upper()
@@ -113,6 +119,7 @@ class ChoiceFilterWithBlank(django_filters.ChoiceFilter):
 
 
 class UploadFilterForm(forms.Form):
+    """Advanced search form"""
     def __init__(self, *args, **kwargs):
         super(UploadFilterForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()

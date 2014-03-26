@@ -1,4 +1,9 @@
+"""
+Register the models in the django admin
+"""
+
 from django.contrib import admin
+
 from .models import Upload
 
 class UploadAdmin(admin.ModelAdmin):

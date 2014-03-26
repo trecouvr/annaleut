@@ -21,6 +21,12 @@ from .models import Upload
 
 @login_required
 def upload(request):
+    """The upload view
+
+    Accept GET and POST.
+    On GET display the form.
+    On POST, validate the form and store the file on the disk
+    """
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -35,6 +41,7 @@ def upload(request):
 
 
 def adminlogin(request):
+    """Small tweak to allow classic django login (bypassing CAS)"""
     request.GET = request.GET.copy()
     request.GET['redirect'] = '/admin/'
     return auth_views.login(request, template_name='admin/login.html',
@@ -43,6 +50,14 @@ def adminlogin(request):
 
 @login_required
 def dl_upload(request, pk):
+    """Download view,
+
+    Files are not accessible directly, the user must be logged, more info
+    available on
+    http://wiki.nginx.org/XSendfile
+    https://djangosnippets.org/snippets/491/
+    http://stackoverflow.com/questions/1729051/django-upload-to-outside-of-media-root
+    """
     u = get_object_or_404(Upload, pk=pk)
     response = HttpResponse()
     response['Content-Disposition'] = "attachment; filename={0}".format(u.file.name)
@@ -51,6 +66,11 @@ def dl_upload(request, pk):
 
 
 def smart_search(request):
+    """Search page
+
+    Accept GET, search parameter is in the `q` parameter of the GET
+    request.
+    """
     PER_PAGE = 50
     uploads = Upload.objects.all()
     if request.GET.get('q', None):
@@ -79,6 +99,7 @@ def smart_search(request):
 
 
 class ContactView(TemplateView):
+    """Very simple view to display contact email"""
     template_name="fileuploader/contact.html"
     def get_context_data(self, **kwargs):
         ctx = super(ContactView, self).get_context_data(**kwargs)

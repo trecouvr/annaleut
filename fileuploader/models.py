@@ -1,4 +1,8 @@
 # -*- encoding: utf-8 -*-
+"""
+Model definitions to store uploads
+
+"""
 
 from django.db import models
 from django.contrib.auth import models as auth_models
@@ -44,30 +48,30 @@ def upload_to(instance, filename):
     return instance.compute_filename(ext)
 
 class Upload(models.Model):
-    # the concerned UV
+    """Store upload informations
+
+    Fields:
+        uv (string): UV label, ie: MT90
+        semester (choice): semester, PRI or AUT
+        exam_t (choice): exam type, ie: Median, final, test 1 ...
+        year (int): year, ie: 2010
+        arch_t (choice): archive type, ie: exam, correction, other
+        uploader (auth.User): reference to the user who uploaded the archive
+        uploaded_date (date): date of the upload
+        file: reference to the emplacement of the file on the disk
+        available (bool): is the archive available for download or not
+    """
     uv = models.CharField('UV', db_index=True, max_length=8, null=False, blank=False)
-    # the semester
     semester = models.CharField('semestre', db_index=True, null=False, blank=False, choices=SEMESTER_CHOICES, max_length=4)
-    # the type of exam
     exam_t = models.CharField('type d\'examen', db_index=True, null=False, blank=False, choices=EXAM_T_CHOICES, max_length=4)
-    # the year
     year = models.IntegerField('année', db_index=True, null=False, blank=False, validators=[
             MaxValueValidator(datetime.datetime.now().year+1),
             MinValueValidator(1980)
         ])
-    # the kind of archive
     arch_t = models.CharField('type d\'archive', db_index=True, null=False, blank=False, choices=ARCH_T_CHOICES, max_length=4)
-    # the uploader
     uploader = models.ForeignKey(auth_models.User)
-    # the date of the upload
     uploaded_date = models.DateTimeField('date d\'upload', auto_now_add=True, db_index=True, null=False, blank=False)
-    # the file
-    # if there is a need to protect access to resources
-    # http://wiki.nginx.org/XSendfile
-    # https://djangosnippets.org/snippets/491/
-    # http://stackoverflow.com/questions/1729051/django-upload-to-outside-of-media-root
     file = models.FileField(upload_to=upload_to, storage=fs, null=False, blank=False)
-    # is the upload available or not
     available = models.BooleanField('disponible', default=True)
 
     class Meta:
