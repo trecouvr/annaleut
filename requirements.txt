@@ -6,6 +6,5 @@ django-filter
 wiki
 git+https://github.com/TomLottermann/django-wiki-formulas.git
 pygments
-django-crispy-forms
 linaro-django-pagination
-
+django-bootstrap3
