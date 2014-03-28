@@ -11,6 +11,8 @@ from django.views.generic import TemplateView
 import django_filters
 from django_filters.views import FilterView
 
+from wiki_plus import models as wikiplus_models
+
 from .forms import UploadForm, SearchForm
 from .models import Upload
 
@@ -30,6 +32,8 @@ def upload(request):
             upload = form.save(commit=False)
             upload.uploader = request.user
             upload.save()
+            # create wiki folders
+            wikiplus_models.create_folders(upload.uv)
             form = UploadForm()
     else:
         form = UploadForm()

@@ -4,10 +4,22 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from django_notify.urls import get_pattern as get_notify_pattern
-from wiki.urls import get_pattern as get_wiki_pattern
 
 
 admin.autodiscover()
+
+
+from wiki import urls
+# monkey patch wiki urls
+def get_accounts_urls(self):
+    urlpatterns = patterns('',
+        url('^_accounts/sign-up/$', 'django_cas.views.login', name='signup'),
+        url('^_accounts/logout/$', 'django_cas.views.logout', name='logout'),
+        url('^_accounts/login/$', 'django_cas.views.login', name='login'),
+        )
+    return urlpatterns
+urls.WikiURLPatterns.get_accounts_urls = get_accounts_urls
+from wiki.urls import get_pattern as get_wiki_pattern
 
 
 urlpatterns = patterns('',
