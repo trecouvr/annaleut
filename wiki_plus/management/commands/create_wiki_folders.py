@@ -7,7 +7,7 @@ from django.core import management
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
-from annaleut.models import get_or_create_folder
+from wiki_plus.models import create_folders
 from fileuploader import models as fileuploader_models
 from wiki import models as wiki_models
 
@@ -29,7 +29,4 @@ class Command(BaseCommand):
             'other_write': False,#root_article.other_write,
         }
         for uv in (uv[0] for uv in uvs):
-            uv_folder = get_or_create_folder(root_user, root_urlpath, uv, uv, article_kwargs)
-            for exam in ('median', 'final', 'test'):
-                title = "%s %s" % (uv, exam)
-                get_or_create_folder(root_user, uv_folder, exam, title, article_kwargs)
+            create_folders(uv)

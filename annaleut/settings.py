@@ -67,6 +67,7 @@ INSTALLED_APPS = (
     #
     'annaleut',
     'fileuploader',
+    'wiki_plus',
 )
 
 MIDDLEWARE_CLASSES = (
