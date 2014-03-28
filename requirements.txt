@@ -8,3 +8,4 @@ git+https://github.com/TomLottermann/django-wiki-formulas.git
 pygments
 linaro-django-pagination
 django-bootstrap3
+django-extensions

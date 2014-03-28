@@ -63,6 +63,7 @@ INSTALLED_APPS = (
     'bootstrap3',
     'linaro_django_pagination',
     'sorting',
+    'django_extensions',
     #
     'annaleut',
     'fileuploader',
