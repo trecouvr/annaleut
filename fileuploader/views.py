@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 from django.conf import settings
-from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils.text import capfirst
@@ -38,14 +37,6 @@ def upload(request):
     else:
         form = UploadForm()
     return render(request, 'fileuploader/upload_form.html', {'form': form})
-
-
-def adminlogin(request):
-    """Small tweak to allow classic django login (bypassing CAS)"""
-    request.GET = request.GET.copy()
-    request.GET['redirect'] = '/annaleut/admin/'
-    return auth_views.login(request, template_name='admin/login.html',
-                            redirect_field_name='redirect')
 
 
 @login_required

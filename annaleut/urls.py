@@ -28,7 +28,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     url(r'', include('fileuploader.urls')),
 
-    url(r'^admin/login/$', 'fileuploader.views.adminlogin'),
+    url(r'^admin/login/$', 'annaleut.views.adminlogin'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', 'django_cas.views.login'),
     url(r'^logout/$', 'django_cas.views.logout'),
