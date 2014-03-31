@@ -1,5 +1,6 @@
 # -*- coding: utf8 -*-
 
+from django.contrib.auth import models as auth_models
 from django.core.management.base import BaseCommand, CommandError
 
 from wiki import models as wiki_models
@@ -37,6 +38,7 @@ Enjoy
 """
 
     def handle(self, *args, **kw):
+        root_user = auth_models.User.objects.get(pk=1)
         article = wiki_models.Article.objects.filter(pk=1).first()
         if article is None:
             # create it
@@ -46,10 +48,15 @@ Enjoy
                 content=self.CONTENT)
         else:
             self.stdout.write("Update root article... ")
-            revision = article.articlerevision_set.first()
-            revision.title = self.TITLE
-            revision.content = self.CONTENT
-            revision.save()
-        article.other_write = False
+        article.owner = root_user
+        article.group_write = True
+        article.group_read = True
+        article.other_write = True
+        article.other_read = True
+        revision = article.current_revision
+        revision.title = self.TITLE
+        revision.content = self.CONTENT
+        revision.locked = True
         article.save()
+        revision.save()
         self.stdout.write("OK\n")

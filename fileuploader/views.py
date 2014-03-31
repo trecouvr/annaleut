@@ -32,7 +32,7 @@ def upload(request):
             upload.uploader = request.user
             upload.save()
             # create wiki folders
-            wikiplus_models.create_folders(upload.uv)
+            wikiplus_models.create_folders([upload.uv])
             form = UploadForm()
     else:
         form = UploadForm()

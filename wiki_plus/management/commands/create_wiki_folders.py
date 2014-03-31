@@ -17,5 +17,4 @@ class Command(BaseCommand):
         # be sure there is a root
         management.call_command('sync_root')
         uvs = fileuploader_models.Upload.objects.values_list('uv').distinct()
-        for uv in (uv[0] for uv in uvs):
-            create_folders(uv)
+        create_folders(uv[0] for uv in uvs)
