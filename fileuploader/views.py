@@ -1,6 +1,9 @@
 # -*- encoding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils.text import capfirst
@@ -33,6 +36,8 @@ def upload(request):
             upload.save()
             # create wiki folders
             wikiplus_models.create_folders([upload.uv])
+            messages.add_message(request, messages.SUCCESS,
+                '%s enregistrée, merci pour ta collaboration :)' % upload.compute_filename())
             form = UploadForm()
     else:
         form = UploadForm()

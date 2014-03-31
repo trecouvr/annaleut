@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'annaleut.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'annaleut',
+        'NAME': 'annaleut2',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',
