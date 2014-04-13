@@ -55,9 +55,11 @@ class SearchForm(forms.Form):
         re_year_and_semester = re.compile('([PA]?)(\d{4})')
         re_semester = re.compile('(PRI)|(AUT).*')
         re_exam_type = re.compile('(MEDIAN)|(FINAL)|(TEST)')
+        re_archive_type = re.compile('(EXAM)|(CORRECTION)|(CORRIGE)|(AUTRE)')
         year = []
         semester = []
         exam_t = []
+        arch_t = []
         uv = []
         for qq in q.split():
             qq = qq.strip()
@@ -66,6 +68,13 @@ class SearchForm(forms.Form):
                 if t.group(1):
                     semester.append('PRI' if t.group(1) == 'P' else 'AUT')
                 year.append(t.group(2))
+            elif re_archive_type.match(qq):
+                if qq in ('CORRECTION', 'CORRIGE'):
+                    arch_t.append('C')
+                elif qq == 'EXAM':
+                    arch_t.append('E')
+                elif qq == 'AUTRE':
+                    arch_t.append('O')
             elif re_semester.match(qq):
                 t = re_semester.match(qq).groups()
                 semester.append(t[0] if t[0] else t[1])
@@ -84,5 +93,6 @@ class SearchForm(forms.Form):
         data['year'] = year
         data['semester'] = semester
         data['exam_t'] = exam_t
+        data['arch_t'] = arch_t
         print data
         return data

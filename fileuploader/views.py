@@ -77,6 +77,7 @@ def smart_search(request):
             year = data['year']
             semester = data['semester']
             exam_t = data['exam_t']
+            arch_t = data['arch_t']
             qs = Upload.objects.all()
             if uv:
                 qs = qs.filter(uv__in=uv)
@@ -86,6 +87,8 @@ def smart_search(request):
                 qs = qs.filter(year__in=year)
             if exam_t:
                 qs = qs.filter(exam_t__in=exam_t)
+            if arch_t:
+                qs = qs.filter(arch_t__in=arch_t)
             uploads = qs
     else:
         form = SearchForm()
