@@ -80,9 +80,6 @@ class Upload(models.Model):
     file = models.FileField(upload_to=upload_to, storage=fs, null=False, blank=False)
     available = models.BooleanField('disponible', default=True)
 
-    class Meta:
-        unique_together = ('uv', 'semester', 'exam_t', 'year', 'arch_t')
-
     def pretty_semester(self):
         return SEMESTER_DICT_CHOICES.get(self.semester, 'UNKSEMESTER')
 
