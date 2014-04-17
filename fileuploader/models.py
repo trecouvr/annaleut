@@ -103,3 +103,6 @@ class Upload(models.Model):
                 ext = '.' + ext
             s += ext
         return s
+
+    def __unicode__(self):
+        return '<Upload #{pk} {name}>'.format(pk=self.pk, name=self.compute_filename())
